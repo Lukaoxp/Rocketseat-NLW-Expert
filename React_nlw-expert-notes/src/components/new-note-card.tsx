@@ -3,8 +3,11 @@ import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'sonner'
 
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void;
+}
 
-export function NewNoteCard() {
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
   const [content, setContent] = useState('');
 
@@ -22,9 +25,13 @@ export function NewNoteCard() {
 
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
-    if(content != '')
-      toast.success('Nota criada com sucesso')
-    else{
+
+    if (content != '') {
+      onNoteCreated(content);
+      toast.success('Nota criada com sucesso');
+      setContent('');
+    }
+    else {
       toast.warning('Nota não criada')
     }
   }
@@ -43,7 +50,7 @@ export function NewNoteCard() {
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
         <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[640px] w-full h-[60vh] bg-slate-700 rounded-md flex flex-col outline-none overflow-hidden">
-          <Dialog.Close className='absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 rounded-bl-md hover:text-slate-100'>
+          <Dialog.Close className='absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 rounded-bl-md hover:text-slate-100 focus-visible:ring-2 focus-visible:ring-lime-400 outline-none'>
             <X className='size-5' />
           </Dialog.Close>
 
@@ -67,7 +74,7 @@ export function NewNoteCard() {
 
             <button
               type='submit'
-              className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'
+              className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950  font-medium hover:bg-lime-500 focus-visible:ring-2 focus-visible:ring-slate-800 focus-visible:bg-lime-500 outline-none'
             >
               <span>Salvar nota</span>
             </button>
