@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import logo from './assets/logo-nlw-expert.svg'
 import { NewNoteCard } from './components/new-note-card'
 import { NoteCard } from './components/note-card'
@@ -10,16 +10,30 @@ interface Note {
 }
 
 export function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [search, setSearch] = useState('');
+  const [notes, setNotes] = useState<Note[]>(() => {
 
-  function onNoteCreated(content :string) {
+    //Valida se existem notas no localStorage
+    const notesOnStorage = localStorage.getItem('notes');
+    //Se houver retorna elas com um parse, senão traz um array vazio
+    return notesOnStorage ? JSON.parse(notesOnStorage) : [];
+  });
+
+  function onNoteCreated(content: string) {
     const newNote = {
       id: crypto.randomUUID(),
       date: new Date(),
       content
     }
 
-    setNotes([newNote, ...notes]);
+    const notesArray = [newNote, ...notes];
+    setNotes(notesArray);
+    //Adiciona as notas no localStorage em formato JSON
+    localStorage.setItem('notes', JSON.stringify(notesArray));
+  }
+
+  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+
   }
 
   return (
@@ -30,6 +44,7 @@ export function App() {
           type="text"
           placeholder='Busque em suas notas...'
           className='w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500'
+          onChange={handleSearch}
         />
       </form>
 
