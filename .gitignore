@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/C#_RocketseatAuction/src/C#_RocketseatAuction.API/bin/Debug/net8.0
+/C#_RocketseatAuction/.vs
+/C#_RocketseatAuction/src/C#_RocketseatAuction.API/obj
