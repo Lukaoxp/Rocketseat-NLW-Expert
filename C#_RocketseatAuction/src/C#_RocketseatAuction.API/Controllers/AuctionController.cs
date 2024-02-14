@@ -9,13 +9,15 @@ namespace C__RocketseatAuction.API.Controllers
     public class AuctionController : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(typeof(Auction), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult GetCurrentAuction()
         {
-            GetCurrentAuctionUseCase useCase = new GetCurrentAuctionUseCase();
+            GetCurrentAuctionUseCase useCase = new();
 
-            Auction result = useCase.Execute();
+            var result = useCase.Execute();
 
-            return Ok(result);
+            return result is null ? NoContent() : Ok(result);
         }
     }
 }
