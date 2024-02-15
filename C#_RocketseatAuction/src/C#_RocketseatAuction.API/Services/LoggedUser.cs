@@ -3,7 +3,7 @@ using C__RocketseatAuction.API.Entities;
 
 namespace C__RocketseatAuction.API.Services
 {
-    public class LoggedUser
+    public class LoggedUser : ILoggedUser
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
